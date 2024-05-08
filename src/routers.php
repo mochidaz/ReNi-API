@@ -7,14 +7,26 @@ include_once __DIR__ .'/utils/permission_guards.php';
 include_once __DIR__ .'/utils/router.php';
 
 router('GET', '/', function () {
+    header("Access-Control-Allow-Origin: *"); // Replace with allowed origin
+    header('Access-Control-Allow-Credentials: true'); // Optional for cookies/sessions
+    header('Access-Control-Allow-Methods: *'); // Allowed request methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With'); // Allowed request headers
     echo json_encode(['message' => 'Hello, World!']);
 }, Permission::Any);
 
 router('GET', '/hello/{name}', function ($params) {
+    header("Access-Control-Allow-Origin: *"); // Replace with allowed origin
+    header('Access-Control-Allow-Credentials: true'); // Optional for cookies/sessions
+    header('Access-Control-Allow-Methods: *'); // Allowed request methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With'); // Allowed request headers
     echo json_encode(['message' => 'Hello, ' . $params['name'] . '!']);
 }, Permission::Admin);
 
 router('POST', '/users/register', function () {
+    header("Access-Control-Allow-Origin: *"); // Replace with allowed origin
+    header('Access-Control-Allow-Credentials: true'); // Optional for cookies/sessions
+    header('Access-Control-Allow-Methods: *'); // Allowed request methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With'); // Allowed request headers
     global $connection;
     $no_ktp = $_POST['no_ktp'];
     $nama = $_POST['nama'];
@@ -33,6 +45,10 @@ router('POST', '/users/register', function () {
 }, Permission::Any);
 
 router('POST', '/users/login', function () {
+    header("Access-Control-Allow-Origin: *"); // Replace with allowed origin
+    header('Access-Control-Allow-Credentials: true'); // Optional for cookies/sessions
+    header('Access-Control-Allow-Methods: *'); // Allowed request methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With'); // Allowed request headers
     global $connection;
     $no_ktp = $_POST['no_ktp'];
     $password = $_POST['password'];
@@ -52,6 +68,10 @@ router('POST', '/users/login', function () {
 }, Permission::Any);
 
 router('GET', '/hi', function() {
+    header("Access-Control-Allow-Origin: *"); // Replace with allowed origin
+    header('Access-Control-Allow-Credentials: true'); // Optional for cookies/sessions
+    header('Access-Control-Allow-Methods: *'); // Allowed request methods
+    header('Access-Control-Allow-Headers: Content-Type, X-Requested-With'); // Allowed request headers
     global $connection;
 
     $api_key = $_SERVER['HTTP_API_KEY'];
