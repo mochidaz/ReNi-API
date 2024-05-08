@@ -2,10 +2,7 @@
 
 require_once 'types.php';
 include_once __DIR__ . '/../db/conn.php';
-
-function generate_now() {
-    return date('Y-m-d H:i:s');
-}
+include_once __DIR__ . '/../utils/permission_guard.hp';
 
 function router($httpMethods, $route, $callback, $permission_guard, $exit = true) {
     static $path = null;
@@ -40,20 +37,24 @@ function router($httpMethods, $route, $callback, $permission_guard, $exit = true
             http_response_code(401);
             echo json_encode(['message' => 'Unauthorized']);
             return;
-        } else {
-            if ($permission_guard === Permission::Admin) {
-                if ($user['role_id'] != 1) {
+        } 
+
+        switch ($permission_guard) {
+            case Permission::Admin:
+                if (!is_admin($user)) {
                     http_response_code(403);
-                    echo json_encode(['message' => 'Forbidden']);
+                    echo json_encode(['message'=> 'Forbidden']);
                     return;
                 }
-            } else if ($permission_guard === Permission::User) {
-                if ($user['role_id'] != 2 && $user['role_id'] != 1) {
+                break;
+
+            case Permission::User:
+                if (!is_admin_or_user($user)) {
                     http_response_code(403);
-                    echo json_encode(['message' => 'Forbidden']);
+                    echo json_encode(['message'=> 'Forbidden']);
                     return;
                 }
-            }
+                break;
         }
     }
 
@@ -73,3 +74,9 @@ function router($httpMethods, $route, $callback, $permission_guard, $exit = true
         exit;
     }
 }
+
+// function include_routers($path) {
+//     include_once $path;
+
+//     return $routes;
+// }

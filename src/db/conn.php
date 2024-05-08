@@ -5,8 +5,8 @@ class Connection
     private $host = 'localhost';
     private $port = '3306';
     private $db = 'renidb';
-    private $username = 'root';
-    private $password = 'root';
+    private $username = 'rahman';
+    private $password = 'rahman';
 
     private $pdo;
 

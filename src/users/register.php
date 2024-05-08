@@ -3,6 +3,7 @@
 include_once __DIR__ . '/../db/conn.php';
 include_once __DIR__ . '/../utils/functions.php';
 include_once __DIR__ . "/auth.php";
+include_once __DIR__ . '/../utils/date.php';
 
 function register($no_ktp, $nama, $role_id, $password, $connection) {
     $now = generate_now();

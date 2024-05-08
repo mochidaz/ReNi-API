@@ -1,10 +1,10 @@
 <?php
 
-include_once __DIR__ . '/utils/functions.php';
 include_once __DIR__ .'/users/register.php';
 include_once __DIR__ .'/db/conn.php';
 include_once __DIR__ .'/users/auth.php';
 include_once __DIR__ .'/utils/permission_guards.php';
+include_once __DIR__ .'/utils/router.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -50,6 +50,26 @@ router('POST', '/users/login', function () {
 
     echo json_encode($response);
 }, Permission::Any);
+
+router('GET', '/hi', function() {
+    global $connection;
+
+    $api_key = $_SERVER['HTTP_API_KEY'];
+
+    $message = $_GET['pesan'];
+
+    $stmt = $connection->prepare ('SELECT * FROM users WHERE token = :api_key');
+
+    $stmt->bindParam(':api_key', $api_key);
+
+    $stmt->execute();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    echo json_encode([
+        'message' => 'Hi, ' . $user['name'] . '!' . ' Pesan dari anda: ' . $message,
+    ]);
+}, Permission::User);
 
 function buildRouter($routes)
 {

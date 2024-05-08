@@ -1,11 +1,11 @@
 <?php
 
 function is_admin($user) {
-    return $user['role'] === 'admin';
+    return $user['role_id'] === 1;
 }
 
 function is_user($user) {
-    return $user['role'] === 'user';
+    return $user['role_id'] === 2;
 }
 
 function is_admin_or_user($user) {
