@@ -5,6 +5,7 @@ include_once __DIR__ .'/db/conn.php';
 include_once __DIR__ .'/users/auth.php';
 include_once __DIR__ .'/utils/permission_guards.php';
 include_once __DIR__ .'/utils/router.php';
+include_once __DIR__ .'/panen/submit.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -70,6 +71,38 @@ router('GET', '/hi', function() {
         'message' => 'Hi, ' . $user['name'] . '!' . ' Pesan dari anda: ' . $message,
     ]);
 }, Permission::User);
+
+router('POST', '/panen', function() {
+    global $connection;
+
+    if(submit_panen($connection, [
+        'pangan_id' => $_POST['pangan_id'],
+        'user_id' => $_POST['user_id'],
+        'jumlah' => $_POST['jumlah'],
+        'tanggal_penanaman' => $_POST['tanggal_penanaman'],
+        'tanggal_panen' => $_POST['tanggal_panen'],
+        'hasil_panen' => $_POST['hasil_panen'],
+        'luas_penanaman' => $_POST['luas_penanaman'],
+    ])) {
+        $response['message'] = 'Submit panen berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Submit panen gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+
+router('GET', '/panen', function() {
+    global $connection;
+
+    $panen = get_panen($connection);
+
+    echo json_encode($panen);
+}, Permission::User);
+    
 
 function buildRouter($routes)
 {

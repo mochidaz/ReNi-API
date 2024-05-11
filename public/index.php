@@ -12,6 +12,9 @@ $routes = [
 
     ['POST', '/users/register', function () {}, Permission::Any],
     ['POST','/users/login', function () {}, Permission::Any],
+
+    ['POST', '/panen', function () {}, Permission::User],
+    ['GET', '/panen', function() {}, Permission::User],
 ];
 
 buildRouter($routes);

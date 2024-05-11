@@ -35,10 +35,15 @@ function router($httpMethods, $route, $callback, $permission_guard, $exit = true
     }
 
     global $connection;
+    
+    $api_key = null;
+    $user = null;
 
-    $api_key = $_SERVER['HTTP_API_KEY'];
+    if (isset($_SERVER['HTTP_API_KEY'])) {
+        $api_key = $_SERVER['HTTP_API_KEY'];
 
-    $user = get_user_by_apikey($api_key, $connection);
+        $user = get_user_by_apikey($api_key, $connection);
+    }
 
     if ($permission_guard !== Permission::Any) {
         if ($user === null) {
