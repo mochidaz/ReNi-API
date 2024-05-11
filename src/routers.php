@@ -6,6 +6,7 @@ include_once __DIR__ .'/users/auth.php';
 include_once __DIR__ .'/utils/permission_guards.php';
 include_once __DIR__ .'/utils/router.php';
 include_once __DIR__ .'/panen/submit.php';
+include_once __DIR__ .'/utils/json.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -35,8 +36,14 @@ router('POST', '/users/register', function () {
 
 router('POST', '/users/login', function () {
     global $connection;
-    $no_ktp = $_POST['no_ktp'];
-    $password = $_POST['password'];
+
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    $no_ktp = $data['no_ktp'];
+    $password = $data['password'];
+
+    echo $no_ktp;
+    echo $password;
 
     $apiKey = login($no_ktp, $password, $connection);
 
