@@ -94,6 +94,22 @@ router('POST', '/panen', function() {
     echo json_encode($response);
 }, Permission::User);
 
+router('GET', '/whoami', function() {
+    global $connection;
+
+    $api_key = $_SERVER['HTTP_API_KEY'];
+
+    $stmt = $connection->prepare('SELECT * FROM users WHERE token = :api_key');
+
+    $stmt->bindParam(':api_key', $api_key);
+
+    $stmt->execute();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    echo json_encode($user);
+}, Permission::User);
+
 
 router('GET', '/panen', function() {
     global $connection;
