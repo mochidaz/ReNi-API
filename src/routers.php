@@ -134,7 +134,14 @@ router('GET', '/users/panen', function($params) {
 
     $panen = get_panen_by_user($connection, $user['no_ktp']);
 
-    echo json_encode($panen);
+    $response = [
+        'message' => 'Data panen user dengan no_ktp ' . $user['no_ktp'],
+        'success'=> true,
+        'status' => 200,
+        'data' => $panen,
+    ];
+
+    echo json_encode($response);
 }, Permission::User);
     
 
