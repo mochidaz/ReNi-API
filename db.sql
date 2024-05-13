@@ -91,3 +91,4 @@ INSERT INTO `data_panen` (`pangan_id`, `user_id`, `jumlah`, `tanggal_penanaman`,
 
 VALUES (3, '123', 100, '2021-01-01', '2021-03-01', 1000, 100, NOW(), NOW());
 
+ALTER TABLE `data_panen` DROP COLUMN `jumlah`;

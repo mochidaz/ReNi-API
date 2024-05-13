@@ -85,7 +85,6 @@ router('POST', '/panen', function() {
     if(submit_panen($connection, [
         'pangan_id' => $_POST['pangan_id'],
         'user_id' => $_POST['user_id'],
-        'jumlah' => $_POST['jumlah'],
         'tanggal_penanaman' => $_POST['tanggal_penanaman'],
         'tanggal_panen' => $_POST['tanggal_panen'],
         'hasil_panen' => $_POST['hasil_panen'],
