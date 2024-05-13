@@ -37,13 +37,13 @@ router('POST', '/users/register', function () {
 router('POST', '/users/login', function () {
     global $connection;
 
-    $data = json_decode(file_get_contents('php://input'), true);
+    //$data = json_decode(file_get_contents('php://input'), true);
 
-    $no_ktp = $data['no_ktp'];
-    $password = $data['password'];
+   // $no_ktp = $data['no_ktp'];
+   // $password = $data['password'];
 
-    echo $no_ktp;
-    echo $password;
+    $no_ktp = $_POST['no_ktp'];
+    $password = $_POST['password'];
 
     $apiKey = login($no_ktp, $password, $connection);
 
