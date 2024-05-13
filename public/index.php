@@ -17,6 +17,8 @@ $routes = [
     ['GET', '/panen', function() {}, Permission::User],
 
     ['GET', '/whoami', function() {}, Permission::User],
+
+    ['GET', '/users/panen', function() {}, Permission::User],
 ];
 
 buildRouter($routes);
