@@ -55,4 +55,14 @@ function get_panen($db) {
     }
 }
 
+function get_panen_by_user($db, $user_id) {
+    $stmt = $db->prepare('SELECT * FROM data_panen WHERE user_id = :user_id');
+
+    $stmt->bindParam(':user_id', $user_id);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>

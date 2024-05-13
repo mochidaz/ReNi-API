@@ -126,6 +126,16 @@ router('GET', '/panen', function() {
 
     echo json_encode($panen);
 }, Permission::User);
+
+router('GET', '/users/panen', function($params) {
+    global $connection;
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    $panen = get_panen_by_user($connection, $user['no_ktp']);
+
+    echo json_encode($panen);
+}, Permission::User);
     
 
 function buildRouter($routes)
