@@ -7,6 +7,8 @@ include_once __DIR__ . '/../utils/permission_guard.hp';
 function router($httpMethods, $route, $callback, $permission_guard, $exit = true) {
     header("Access-Control-Allow-Origin: *");
     header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, API_KEY');
     static $path = null;
     if ($path === null) {
         $path = parse_url($_SERVER['REQUEST_URI'])['path'];

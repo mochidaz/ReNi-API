@@ -82,9 +82,11 @@ router('GET', '/hi', function() {
 router('POST', '/panen', function() {
     global $connection;
 
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
     if(submit_panen($connection, [
         'pangan_id' => $_POST['pangan_id'],
-        'user_id' => $_POST['user_id'],
+        'user_id' => $user['no_ktp'],
         'tanggal_penanaman' => $_POST['tanggal_penanaman'],
         'tanggal_panen' => $_POST['tanggal_panen'],
         'hasil_panen' => $_POST['hasil_panen'],
