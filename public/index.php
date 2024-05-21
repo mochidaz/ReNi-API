@@ -12,6 +12,8 @@ $routes = [
 
     ['POST', '/users/register', function () {}, Permission::Any],
     ['POST','/users/login', function () {}, Permission::Any],
+    ['POST', '/users/data', function() {}, Permission::User],
+    ['GET', '/users/data', function() {}, Permission::User],
 
     ['POST', '/panen', function () {}, Permission::User],
     ['GET', '/panen', function() {}, Permission::User],

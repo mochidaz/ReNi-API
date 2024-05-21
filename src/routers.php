@@ -7,6 +7,8 @@ include_once __DIR__ .'/utils/permission_guards.php';
 include_once __DIR__ .'/utils/router.php';
 include_once __DIR__ .'/panen/submit.php';
 include_once __DIR__ .'/utils/json.php';
+include_once __DIR__ .'/users/users_data.php';
+include_once __DIR__ .'/utils/files.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -107,7 +109,7 @@ router('GET', '/whoami', function() {
 
     $api_key = $_SERVER['HTTP_API_KEY'];
 
-    $stmt = $connection->prepare('SELECT * FROM users WHERE token = :api_key');
+    $stmt = $connection->prepare('SELECT *, role.name as role_name FROM users INNER JOIN role ON users.role_id = role.id WHERE users.token = :api_key');
 
     $stmt->bindParam(':api_key', $api_key);
 
@@ -142,6 +144,49 @@ router('GET', '/users/panen', function($params) {
     ];
 
     echo json_encode($response);
+}, Permission::User);
+
+router('POST', '/users/data', function() {
+    global $connection;
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    // multipart/form-data
+//    $query = $db->prepare('INSERT INTO user_data (user_id, address, phone, profile_photo, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())');
+
+    $file = $_FILES['profile_photo'];
+
+    $imgName = uploadImage($file, '../media/profile_photo/');
+    
+    if ($imgName['success'] === false) {
+        echo json_encode($imgName);
+        return;
+    }
+
+    $data = [
+        'user_id' => $user['no_ktp'],
+        'address' => $_POST['address'],
+        'phone' => $_POST['phone'],
+        'profile_photo' => $imgName['file_path'],        
+    ];
+    
+    submit_user_data($data['user_id'], $data['address'],
+    $data['phone'], $data['profile_photo'], $connection);
+    
+    echo json_encode([
+        'message' => 'Data user berhasil disimpan',
+        'success' => true,
+    ]);
+}, Permission::User);
+
+router('GET', '/users/data', function() {
+    global $connection;
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    $user_data = get_user_data($user['no_ktp'], $connection);
+
+    echo json_encode($user_data);
 }, Permission::User);
     
 

@@ -1,7 +1,6 @@
 <?php
 
 include_once __DIR__ . '/../db/conn.php';
-include_once __DIR__ . '/../utils/functions.php';
 include_once __DIR__ . "/auth.php";
 include_once __DIR__ . '/../utils/date.php';
 

@@ -2,7 +2,7 @@
 
 require_once 'types.php';
 include_once __DIR__ . '/../db/conn.php';
-include_once __DIR__ . '/../utils/permission_guard.hp';
+include_once __DIR__ . '/permission_guards.php';
 
 function router($httpMethods, $route, $callback, $permission_guard, $exit = true) {
     header("Access-Control-Allow-Origin: *");

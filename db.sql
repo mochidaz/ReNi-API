@@ -29,20 +29,6 @@ CREATE TABLE IF NOT EXISTS `user_data` (
     FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
 );
 
-INSERT INTO `role` (`name`, `created_at`, `updated_at`)
-VALUES ('admin', NOW(), NOW());
-
-INSERT INTO `role` (`name`, `created_at`, `updated_at`)
-VALUES ('user', NOW(), NOW());
-
-INSERT INTO `users` (`no_ktp`, `name`, `password`, `role_id`, `token`)
-
-VALUES ('1234567890', 'admin', 'admin', 1, 'admin');
-
-INSERT INTO `users` (`no_ktp`, `name`, `password`, `role_id`, `token`)
-
-VALUES ('123', 'user', 'user', 2, 'user');
-
 CREATE TABLE IF NOT EXISTS `pangan` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
@@ -67,28 +53,82 @@ CREATE TABLE IF NOT EXISTS `data_panen` (
     FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
 );
 
-INSERT INTO `pangan` (`name`, `created_at`, `updated_at`)
-
-VALUES ('Padi', NOW(), NOW());
-
-INSERT INTO `pangan` (`name`, `created_at`, `updated_at`)
-
-VALUES ('Jagung', NOW(), NOW());
-
-INSERT INTO `pangan` (`name`, `created_at`, `updated_at`)
-
-VALUES ('Kedelai', NOW(), NOW());
-
-INSERT INTO `data_panen` (`pangan_id`, `user_id`, `jumlah`, `tanggal_penanaman`, `tanggal_panen`, `hasil_panen`, `luas_penanaman`, `created_at`, `updated_at`)
-
-VALUES (1, '123', 100, '2021-01-01', '2021-03-01', 1000, 100, NOW(), NOW());
-
-INSERT INTO `data_panen` (`pangan_id`, `user_id`, `jumlah`, `tanggal_penanaman`, `tanggal_panen`, `hasil_panen`, `luas_penanaman`, `created_at`, `updated_at`)
-
-VALUES (2, '123', 100, '2021-01-01', '2021-03-01', 1000, 100, NOW(), NOW());
-
-INSERT INTO `data_panen` (`pangan_id`, `user_id`, `jumlah`, `tanggal_penanaman`, `tanggal_panen`, `hasil_panen`, `luas_penanaman`, `created_at`, `updated_at`)
-
-VALUES (3, '123', 100, '2021-01-01', '2021-03-01', 1000, 100, NOW(), NOW());
-
 ALTER TABLE `data_panen` DROP COLUMN `jumlah`;
+
+CREATE TABLE IF NOT EXISTS `wilayah` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `informasi_tanah` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `wilayah_id` int(11) NOT NULL,
+    `content` text NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+);
+
+CREATE TABLE IF NOT EXISTS `informasi_suhu`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `wilayah_id` int(11) NOT NULL,
+    `content` text NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+);
+
+CREATE TABLE IF NOT EXISTS `informasi_air`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `wilayah_id` int(11) NOT NULL,
+    `content` text NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+);
+
+ALTER TABLE `user_data` ADD `profile_photo` varchar(255) NOT NULL;
+
+CREATE TABLE IF NOT EXISTS `lahan_petani` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` varchar(255) NOT NULL,
+    `luas_lahan` int(11) NOT NULL,
+    `lokasi` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+);
+
+ALTER TABLE `data_panen` ADD `lahan_id` int(11) NOT NULL;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE `data_panen`
+ADD CONSTRAINT `fk_data_panen_lahan_id`
+FOREIGN KEY (`lahan_id`)
+REFERENCES `lahan_petani`(`id`);
+
+SET FOREIGN_KEY_CHECKS = 1;
+s
+ALTER TABLE `lahan_petani` ADD `name` varchar(255) NOT NULL;
+
+ALTER TABLE `lahan_petani` ADD `wilayah_id` int(11) NOT NULL;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ALTER TABLE `lahan_petani`
+ADD CONSTRAINT `fk_lahan_petani_wilayah_id`
+FOREIGN KEY (`wilayah_id`)
+REFERENCES `wilayah`(`id`);
+
+SET FOREIGN_KEY_CHECKS = 1;
