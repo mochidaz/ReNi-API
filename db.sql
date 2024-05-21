@@ -70,8 +70,7 @@ CREATE TABLE IF NOT EXISTS `informasi_tanah` (
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `informasi_suhu`(
@@ -81,8 +80,7 @@ CREATE TABLE IF NOT EXISTS `informasi_suhu`(
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `informasi_air`(
@@ -92,8 +90,7 @@ CREATE TABLE IF NOT EXISTS `informasi_air`(
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`no_ktp`)
+    FOREIGN KEY (`wilayah_id`) REFERENCES `wilayah`(`id`)
 );
 
 ALTER TABLE `user_data` ADD `profile_photo` varchar(255) NOT NULL;
