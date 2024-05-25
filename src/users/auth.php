@@ -46,3 +46,10 @@ function get_user_by_apikey($api_key, $connection) {
 
     return $user ? $user : null;
 }
+
+function get_user_data_by_apikey($api_key, $connection) {
+    // join with user_data
+    
+    $stmt = $connection->prepare("SELECT *, * FROM users WHERE token = :api_key");
+}
+    
