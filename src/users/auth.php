@@ -39,7 +39,7 @@ function login($no_ktp, $password, $connection) {
 }
 
 function get_user_by_apikey($api_key, $connection) {
-    $stmt = $connection->prepare("SELECT * FROM users WHERE token = :api_key");
+    $stmt = $connection->prepare("SELECT *, role.name as role_name FROM users INNER JOIN role ON users.role_id = role.id WHERE token = :api_key");
     $stmt->bindParam(':api_key', $api_key);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
