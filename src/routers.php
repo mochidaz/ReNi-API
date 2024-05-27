@@ -9,6 +9,8 @@ include_once __DIR__ .'/panen/submit.php';
 include_once __DIR__ .'/utils/json.php';
 include_once __DIR__ .'/users/users_data.php';
 include_once __DIR__ .'/utils/files.php';
+include_once __DIR__ .'/region/submit_daerah.php';
+include_once __DIR__ .'/region/get_daerah.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -189,7 +191,62 @@ router('GET', '/users/data', function() {
 
     echo json_encode($user_data);
 }, Permission::User);
-    
+
+router('POST', '/users/lahan', function() {
+    global $connection;
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    if (insert_lahan($_POST['name'], $_POST['wilayah_id'], $_POST['luas_lahan'], $_POST['lokasi'], $user['no_ktp'], $connection)) {
+        $response['message'] = 'Insert lahan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert lahan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('GET', '/users/lahan', function() {
+    global $connection;
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    if (isset($_GET['id'])) {
+        $lahan = get_lahan($_GET['id'], $connection);
+    } else {
+        $lahan = get_lahan_by_user($user['no_ktp'], $connection);
+    }
+
+    echo json_encode($lahan);
+}, Permission::User);
+
+router('POST', '/wilayah', function() {
+    global $connection;
+
+    if (submit_daerah($_POST['name'], $connection)) {
+        $response['message'] = 'Insert wilayah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert wilayah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET','/wilayah', function() {
+    global $connection;
+
+    if (isset($_GET['id'])) {
+        $wilayah = get_daerah_by_id($_GET['id'], $connection);
+    } else {
+        $wilayah = get_all_daerah($connection);
+    }
+
+    echo json_encode($wilayah);
+}, Permission::Any);
 
 function buildRouter($routes)
 {

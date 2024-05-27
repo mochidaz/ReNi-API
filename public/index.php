@@ -24,7 +24,29 @@ $routes = [
 
     ['GET', '/wilayah', function() {}, Permission::Any],
 
+    ['POST', '/wilayah', function() {}, Permission::Admin],
+
+    ['POST', '/wilayah/tanah', function() {}, Permission::Admin],
+
+    ['POST', '/wilayah/air', function() {}, Permission::Admin],
+
+    ['POST', '/wilayah/suhu', function() {}, Permission::Admin],
+
+    ['GET', '/wilayah/tanah', function() {}, Permission::Any],
+
+    ['GET', '/wilayah/air', function() {}, Permission::Any],
+
+    ['GET', '/wilayah/suhu', function() {}, Permission::Any],
+
+    ['POST', '/users/lahan', function() {}, Permission::User],
     
+    ['GET', '/users/lahan', function() {}, Permission::User],
+
+    ['POST', '/ruang-tani/artikel', function() {}, Permission::Admin],
+
+    ['GET', '/ruang-tani', function() {}, Permission::Any],
+
+    ['GET', '/ruang-tani/artikel', function() {}, Permission::Any],
 ];
 
 buildRouter($routes);

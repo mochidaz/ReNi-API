@@ -129,3 +129,59 @@ FOREIGN KEY (`wilayah_id`)
 REFERENCES `wilayah`(`id`);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE IF NOT EXISTS `artikel` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(255) NOT NULL,
+    `content` text NOT NULL,
+    `category` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `artikel_image` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `artikel_id` int(11) NOT NULL,
+    `image` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`artikel_id`) REFERENCES `artikel`(`id`)
+);
+
+
+-- Add DEFAULT CURRENT_TIMESTAMP to created_at and updated_at
+
+ALTER TABLE `role` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `role` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `user_data` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `user_data` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `pangan` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `pangan` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `data_panen` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `data_panen` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `wilayah` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `wilayah` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `informasi_tanah` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `informasi_tanah` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `informasi_suhu` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `informasi_suhu` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `informasi_air` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `informasi_air` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `lahan_petani` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `lahan_petani` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `artikel` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `artikel` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `artikel_image` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `artikel_image` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
