@@ -58,6 +58,7 @@ router('POST', '/users/login', function () {
         $response['success'] = true;
         $response['api_key'] = $apiKey;
         $response['role_name'] = get_user_by_apikey($apiKey, $connection)['role_name'];
+        $response['no_ktp'] = get_user_by_apikey($apiKey, $connection)['no_ktp'];
     } else {
         $response['message'] = 'Login gagal';
         $response['success'] = false;
