@@ -23,7 +23,7 @@ router('GET', '/hello/{name}', function ($params) {
 router('POST', '/users/register', function () {
     global $connection;
     $no_ktp = $_POST['no_ktp'];
-    $nama = $_POST['nama'];
+    $nama = $_POST['name'];
     $role_id = 2;
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
