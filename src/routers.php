@@ -217,8 +217,10 @@ router('GET', '/users/lahan', function() {
 
     if (isset($_GET['id'])) {
         $lahan = get_lahan($_GET['id'], $connection);
+    } else if (isset($_GET['no_ktp'])){
+        $lahan = get_lahan_by_user($_GET['no_ktp'], $connection);
     } else {
-        $lahan = get_lahan_by_user($user['no_ktp'], $connection);
+        $lahan = get_all_lahan($connection);
     }
 
     echo json_encode($lahan);
