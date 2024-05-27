@@ -17,10 +17,17 @@ function get_pangan($db, $id = null) {
         return $row;
     } else {
         $stmt = $db->prepare('SELECT * FROM pangan');
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $db->execute($stmt, null);
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $row;
     }
 }
+
+$stmt = $connection->prepare("SELECT * FROM wilayah");
+
+$connection->execute($stmt, null);
+
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+return $result;
 
 ?>
