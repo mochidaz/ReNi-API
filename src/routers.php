@@ -99,6 +99,7 @@ router('POST', '/panen', function() {
         'tanggal_panen' => $_POST['tanggal_panen'],
         'hasil_panen' => $_POST['hasil_panen'],
         'luas_penanaman' => $_POST['luas_penanaman'],
+        'lahan_id' => $_POST['lahan_id'],
     ])) {
         $response['message'] = 'Submit panen berhasil';
         $response['success'] = true;
