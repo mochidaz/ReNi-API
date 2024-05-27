@@ -11,6 +11,8 @@ include_once __DIR__ .'/users/users_data.php';
 include_once __DIR__ .'/utils/files.php';
 include_once __DIR__ .'/region/submit_daerah.php';
 include_once __DIR__ .'/region/get_daerah.php';
+include_once __DIR__ .'/lahan/submit_lahan.php';
+include_once __DIR__ .'/pangan/pangan.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -246,6 +248,36 @@ router('GET','/wilayah', function() {
     }
 
     echo json_encode($wilayah);
+}, Permission::Any);
+
+router('POST', '/pangan', function() {
+    global $connection;
+
+    $response = [];
+
+    if (submit_pangan($connection, $_POST['name'])) {
+        $response['message'] = 'Insert pangan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert pangan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET', '/pangan', function() {
+    global $connection;
+
+    $pangan = null;
+
+    if (isset($_GET['id'])) {
+        $pangan = get_pangan($connection, $_GET['id']);
+    } else {
+        $pangan = get_pangan($connection);
+    }
+
+    echo json_encode($pangan);
 }, Permission::Any);
 
 function buildRouter($routes)
