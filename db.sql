@@ -185,3 +185,6 @@ ALTER TABLE `artikel` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIME
 
 ALTER TABLE `artikel_image` MODIFY `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE `artikel_image` MODIFY `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+-- remove luas_penanaman from data_panen
+ALTER TABLE `data_panen` DROP COLUMN `luas_penanaman`;
