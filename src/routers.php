@@ -216,7 +216,7 @@ router('GET', '/users/lahan', function() {
     $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
 
     if (isset($_GET['id'])) {
-        $lahan = get_lahan($_GET['id'], $connection);
+        $lahan = get_lahan_by_user($_GET['id'], $connection);
     } else if (isset($_GET['no_ktp'])){
         $lahan = get_lahan_by_user($_GET['no_ktp'], $connection);
     } else {
