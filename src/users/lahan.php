@@ -2,7 +2,7 @@
 
 
 function insert_lahan($name, $wilayah_id, $luas_lahan, $lokasi, $user_id, $connection) {
-    $stmt = $connection->prepare('INSERT INTO lahan_petani (name, luas_lahan, wilayah_id, lokasi, user_id, created_at, updated_at) VALUES (:name, :luas_lahan, :lokasi, :user_id, :created_at, :updated_at)');
+    $stmt = $connection->prepare('INSERT INTO lahan_petani (name, luas_lahan, wilayah_id, lokasi, user_id, created_at, updated_at) VALUES (:name, :luas_lahan, :wilayah_id, :lokasi, :user_id, :created_at, :updated_at)');
 
     $stmt->bindParam(':name', $name);
 
