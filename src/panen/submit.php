@@ -16,7 +16,7 @@
 // );
 
 function submit_panen($db, $panen) {
-    $stmt = $db->prepare('INSERT INTO data_panen (pangan_id, user_id, tanggal_penanaman, tanggal_panen, hasil_panen, luas_penanaman, created_at, updated_at) VALUES (:pangan_id, :user_id, :tanggal_penanaman, :tanggal_panen, :hasil_panen, :luas_penanaman, :created_at, :updated_at)');
+    $stmt = $db->prepare('INSERT INTO data_panen (pangan_id, user_id, tanggal_penanaman, tanggal_panen, hasil_panen, created_at, updated_at) VALUES (:pangan_id, :user_id, :tanggal_penanaman, :tanggal_panen, :hasil_panen, :created_at, :updated_at)');
 
     $stmt->bindParam(':pangan_id', $panen['pangan_id']);
 
@@ -27,8 +27,6 @@ function submit_panen($db, $panen) {
     $stmt->bindParam(':tanggal_panen', $panen['tanggal_panen']);
 
     $stmt->bindParam(':hasil_panen', $panen['hasil_panen']);
-
-    $stmt->bindParam(':luas_penanaman', $panen['luas_penanaman']);
 
     $stmt->bindParam(':created_at', date('Y-m-d H:i:s'));
 
