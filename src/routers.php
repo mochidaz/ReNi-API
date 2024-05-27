@@ -11,7 +11,7 @@ include_once __DIR__ .'/users/users_data.php';
 include_once __DIR__ .'/utils/files.php';
 include_once __DIR__ .'/region/submit_daerah.php';
 include_once __DIR__ .'/region/get_daerah.php';
-include_once __DIR__ .'/lahan/submit_lahan.php';
+include_once __DIR__ .'/users/lahan.php';
 include_once __DIR__ .'/pangan/pangan.php';
 
 router('GET', '/', function () {
