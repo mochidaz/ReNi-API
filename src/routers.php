@@ -189,9 +189,11 @@ router('POST', '/users/data', function() {
 router('GET', '/users/data', function() {
     global $connection;
 
-    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
-
-    $user_data = get_user_data($user['no_ktp'], $connection);
+    if (isset($_GET['no_ktp'])) {
+        $user_data = get_user_data($_GET['no_ktp'], $connection);
+    } else {
+        $user_data = get_bulk_user_data($connection);
+    }
 
     echo json_encode($user_data);
 }, Permission::User);
