@@ -65,4 +65,10 @@ $routes = [
     ['GET', '/info_suhu', function() {}, Permission::Any],
 ];
 
-buildRouter($routes);
+$deleteRoutes = [
+    ['DELETE', '/users/lahan/{id}', function($params) {}, Permission::User],
+    ['DELETE', '/users/panen/{id}', function($params) {}, Permission::User],
+    ['DELETE', '/ruang-tani/artikel/{id}', function($params) {}, Permission::Admin],
+];
+
+buildRouter(array_merge($routes, $deleteRoutes));
