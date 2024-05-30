@@ -51,6 +51,18 @@ $routes = [
     ['POST', '/pangan', function() {}, Permission::Admin],
 
     ['GET', '/pangan', function() {}, Permission::Any],
+
+    ['POST', '/info_tanah', function() {}, Permission::Admin],
+
+    ['GET', '/info_tanah', function() {}, Permission::Any],
+
+    ['POST', '/info_air', function() {}, Permission::Admin],
+
+    ['GET', '/info_air', function() {}, Permission::Any],
+
+    ['POST', '/info_suhu', function() {}, Permission::Admin],
+
+    ['GET', '/info_suhu', function() {}, Permission::Any],
 ];
 
 buildRouter($routes);

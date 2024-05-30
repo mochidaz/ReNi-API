@@ -13,6 +13,10 @@ include_once __DIR__ .'/region/submit_daerah.php';
 include_once __DIR__ .'/region/get_daerah.php';
 include_once __DIR__ .'/users/lahan.php';
 include_once __DIR__ .'/pangan/pangan.php';
+include_once __DIR__ .'/ruang_tani/post.php';
+include_once __DIR__ .'/infos/soil_info.php';
+include_once __DIR__ .'/infos/water_info.php';
+include_once __DIR__ .'/infos/temperature_info.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -284,6 +288,137 @@ router('GET', '/pangan', function() {
     }
 
     echo json_encode($pangan);
+}, Permission::Any);
+
+router('POST', '/ruang-tani/artikel', function() {
+    global $connection;
+
+    $response = [];
+
+    $image = $_FILES['image'];
+
+    $imgName = uploadImage($image, '../media/artikel/');
+
+    if ($imgName['success'] === false) {
+        echo json_encode($imgName);
+        return;
+    }
+
+    if (submit_post($_POST['title'], $_POST['content'], $_POST['category'], $imgName['file_path'], $connection)) {
+        $response['message'] = 'Insert artikel berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert artikel gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET', '/ruang-tani', function() {
+    global $connection;
+
+    if (isset($_GET['id'])) {
+        $posts = get_post($connection, $_GET['id']);
+    } else {
+        $posts = get_post($connection);
+    }
+
+    echo json_encode($posts);
+}, Permission::Any);
+
+router('POST', '/info_tanah', function() {
+    global $connection;
+
+    $response = [];
+
+    if (submit_soil_info($_POST['wilayah_id'], $_POST['content'], $connection)) {
+        $response['message'] = 'Insert info tanah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert info tanah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET', '/info_tanah', function() {
+    global $connection;
+
+    if (isset($_GET['id'])) {
+        $info = get_soil_info($connection, $_GET['id']);
+    } else if (isset($_GET['wilayah_id'])) {
+        $info = get_soil_by_wilayah($_GET['wilayah_id'], $connection);
+    } else {
+        $info = get_soil_info($connection);
+    }
+
+    echo json_encode($info);
+}, Permission::Any);
+
+// get water
+
+router('POST', '/info_air', function() {
+    global $connection;
+
+    $response = [];
+
+    if (submit_water_info($_POST['wilayah_id'], $_POST['content'], $connection)) {
+        $response['message'] = 'Insert info air berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert info air gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET', '/info_air', function() {
+    global $connection;
+
+    if (isset($_GET['id'])) {
+        $info = get_water_info($connection, $_GET['id']);
+    } else if (isset($_GET['wilayah_id'])) {
+        $info = get_water_by_wilayah($_GET['wilayah_id'], $connection);
+    } else {
+        $info = get_water_info($connection);
+    }
+
+    echo json_encode($info);
+}, Permission::Any);
+
+// get temperature
+
+router('POST', '/info_suhu', function() {
+    global $connection;
+
+    $response = [];
+
+    if (submit_temperature_info($_POST['wilayah_id'], $_POST['content'], $connection)) {
+        $response['message'] = 'Insert info suhu berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Insert info suhu gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('GET', '/info_suhu', function() {
+    global $connection;
+
+    if (isset($_GET['id'])) {
+        $info = get_temperature_info($connection, $_GET['id']);
+    } else if (isset($_GET['wilayah_id'])) {
+        $info = get_temperature_by_wilayah($_GET['wilayah_id'], $connection);
+    } else {
+        $info = get_temperature_info($connection);
+    }
+
+    echo json_encode($info);
 }, Permission::Any);
 
 function buildRouter($routes)

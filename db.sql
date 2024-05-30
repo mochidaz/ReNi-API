@@ -188,3 +188,7 @@ ALTER TABLE `artikel_image` MODIFY `updated_at` datetime NOT NULL DEFAULT CURREN
 
 -- remove luas_penanaman from data_panen
 ALTER TABLE `data_panen` DROP COLUMN `luas_penanaman`;
+
+-- add image to artikel
+
+ALTER TABLE `artikel` ADD `image` varchar(255) NOT NULL;
