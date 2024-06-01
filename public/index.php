@@ -66,9 +66,39 @@ $routes = [
 ];
 
 $deleteRoutes = [
-    ['DELETE', '/users/lahan/{id}', function($params) {}, Permission::User],
-    ['DELETE', '/users/panen/{id}', function($params) {}, Permission::User],
-    ['DELETE', '/ruang-tani/artikel/{id}', function($params) {}, Permission::Admin],
+    ['DELETE', '/users/panen/', function() {}, Permission::User],
+
+    ['DELETE', '/users/lahan/', function() {}, Permission::User],
+
+    ['DELETE', '/ruang-tani/artikel/', function() {}, Permission::Admin],
+
+    ['DELETE', '/pangan/', function() {}, Permission::Admin],
+
+    ['DELETE', '/info_tanah/', function() {}, Permission::Admin],
+
+    ['DELETE', '/info_air/', function() {}, Permission::Admin],
+
+    ['DELETE', '/info_suhu/', function() {}, Permission::Admin],
 ];
 
-buildRouter(array_merge($routes, $deleteRoutes));
+$updateRoutes = [
+    ['PUT', '/users/panen/', function() {}, Permission::User],
+
+    ['PUT', '/users/lahan/', function() {}, Permission::User],
+
+    ['PUT', '/ruang-tani/artikel/', function() {}, Permission::Admin],
+
+    ['PUT', '/pangan/', function() {}, Permission::Admin],
+
+    ['PUT', '/info_tanah/', function() {}, Permission::Admin],
+
+    ['PUT', '/info_air/', function() {}, Permission::Admin],
+
+    ['PUT', '/info_suhu/', function() {}, Permission::Admin],
+
+    ['PUT', '/user/data/profile-photo', function() {}, Permission::User],
+
+    ['PUT', '/ruang-tani/image', function() {}, Permission::Admin],
+];
+
+buildRouter(array_merge($routes, $deleteRoutes, $updateRoutes));

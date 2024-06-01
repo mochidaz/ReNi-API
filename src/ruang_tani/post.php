@@ -39,4 +39,26 @@ function get_post_by_category($category, $connection) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function delete_post($connection, $id) {
+    $stmt = $connection->prepare('DELETE FROM artikel WHERE id = :id');
+    $stmt->bindParam(':id', $id);
+    return $connection->execute($stmt, null);
+}
+
+function update_post($connection, $post) {
+    $stmt = $connection->prepare('UPDATE artikel SET title = :title, content = :content, category = :category WHERE id = :id');
+    $stmt->bindParam(':title', $post['title']);
+    $stmt->bindParam(':content', $post['content']);
+    $stmt->bindParam(':category', $post['category']);
+    $stmt->bindParam(':id', $post['id']);
+    return $connection->execute($stmt, null);
+}
+
+function update_post_image($connection, $id, $image) {
+    $stmt = $connection->prepare('UPDATE artikel SET image = :image WHERE id = :id');
+    $stmt->bindParam(':image', $image);
+    $stmt->bindParam(':id', $id);
+    return $connection->execute($stmt, null);
+}
+
 ?>

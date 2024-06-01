@@ -17,6 +17,8 @@ include_once __DIR__ .'/ruang_tani/post.php';
 include_once __DIR__ .'/infos/soil_info.php';
 include_once __DIR__ .'/infos/water_info.php';
 include_once __DIR__ .'/infos/temperature_info.php';
+include_once __DIR__ .'/region/delete_daerah.php';
+include_once __DIR__ .'/region/update_daerah.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -46,11 +48,6 @@ router('POST', '/users/register', function () {
 
 router('POST', '/users/login', function () {
     global $connection;
-
-    //$data = json_decode(file_get_contents('php://input'), true);
-
-   // $no_ktp = $data['no_ktp'];
-   // $password = $data['password'];
 
     $no_ktp = $_POST['no_ktp'];
     $password = $_POST['password'];
@@ -293,7 +290,7 @@ router('GET', '/pangan', function() {
 router('POST', '/ruang-tani/artikel', function() {
     global $connection;
 
-    $response = [];
+    $response = []; 
 
     $image = $_FILES['image'];
 
@@ -357,8 +354,6 @@ router('GET', '/info_tanah', function() {
     echo json_encode($info);
 }, Permission::Any);
 
-// get water
-
 router('POST', '/info_air', function() {
     global $connection;
 
@@ -389,8 +384,6 @@ router('GET', '/info_air', function() {
     echo json_encode($info);
 }, Permission::Any);
 
-// get temperature
-
 router('POST', '/info_suhu', function() {
     global $connection;
 
@@ -420,6 +413,427 @@ router('GET', '/info_suhu', function() {
 
     echo json_encode($info);
 }, Permission::Any);
+
+router('DELETE', '/users/panen/', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID panen tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_panen($connection, $id)) {
+        $response['message'] = 'Delete panen berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete panen gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('DELETE', '/users/lahan/', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID lahan tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_lahan($connection, $id)) {
+        $response['message'] = 'Delete lahan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete lahan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('DELETE', '/wilayah/', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID wilayah tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_daerah($connection, $id)) {
+        $response['message'] = 'Delete wilayah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete wilayah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('DELETE', '/pangan/', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID pangan tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_pangan($connection, $id)) {
+        $response['message'] = 'Delete pangan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete pangan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('DELETE', '/ruang-tani', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID artikel tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_post($connection, $id)) {
+        $response['message'] = 'Delete artikel berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete artikel gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('DELETE', '/info_tanah', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID info tanah tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_soil_info($connection, $id)) {
+        $response['message'] = 'Delete info tanah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete info tanah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('DELETE', '/info_air', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID info air tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_water_info($connection, $id)) {
+        $response['message'] = 'Delete info air berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete info air gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('DELETE', '/info_suhu', function($params) {
+    global $connection;
+
+    $response = [];
+
+    if (!isset($_GET['id'])) {
+        $response['message'] = 'ID info suhu tidak ditemukan';
+        $response['success'] = false;
+        echo json_encode($response);
+        return;
+    }
+
+    $id = $_GET['id'];
+
+    if (delete_temperature_info($connection, $id)) {
+        $response['message'] = 'Delete info suhu berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Delete info suhu gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/users/data', function() {
+    global $connection;
+
+    $response = [];
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+
+    $data = [
+        'user_id' => $user['no_ktp'],
+        'address' => $_POST['address'],
+        'phone' => $_POST['phone'],
+    ];
+
+    if (update_user_data($data, $connection)) {
+        $response['message'] = 'Update data user berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update data user gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('PUT', '/users/data/profile-photo', function() {
+    global $connection;
+
+    $response = [];
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    $file = $_FILES['profile_photo'];
+
+    $imgName = uploadImage($file, '../media/profile_photo/');
+
+    if ($imgName['success'] === false) {
+        echo json_encode($imgName);
+        return;
+    }
+
+    if (update_user_profile_photo($user['no_ktp'], $imgName['file_path'], $connection)) {
+        $response['message'] = 'Update foto profil berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update foto profil gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('PUT', '/users/lahan', function() {
+    global $connection;
+
+    $response = [];
+
+    $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
+
+    if (update_lahan([
+        'id' => $_POST['id'],
+        'name' => $_POST['name'],
+        'luas_lahan' => $_POST['luas_lahan'],
+        'wilayah_id' => $_POST['wilayah_id'],
+        'lokasi' => $_POST['lokasi'],
+    ], $connection)) {
+        $response['message'] = 'Update lahan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update lahan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::User);
+
+router('PUT', '/wilayah', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_daerah([
+        'id' => $_POST['id'],
+        'name' => $_POST['name'],
+    ], $connection)) {
+        $response['message'] = 'Update wilayah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update wilayah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/pangan', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_pangan([
+        'id' => $_POST['id'],
+        'name' => $_POST['name'],
+    ], $connection)) {
+        $response['message'] = 'Update pangan berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update pangan gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/ruang-tani', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_post([
+        'id' => $_POST['id'],
+        'title' => $_POST['title'],
+        'content' => $_POST['content'],
+        'category' => $_POST['category'],
+    ], $connection)) {
+        $response['message'] = 'Update artikel berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update artikel gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/ruang-tani/image', function() {
+    global $connection;
+
+    $response = [];
+
+    $file = $_FILES['image'];
+
+    $imgName = uploadImage($file, '../media/artikel/');
+
+    if ($imgName['success'] === false) {
+        echo json_encode($imgName);
+        return;
+    }
+
+    if (update_post_image($connection, $_POST['id'], $imgName['file_path'])) {
+        $response['message'] = 'Update artikel berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update artikel gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/info_tanah', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_soil_info($connection, [
+        'id' => $_POST['id'],
+        'content' => $_POST['content'],
+    ])) {
+        $response['message'] = 'Update info tanah berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update info tanah gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/info_air', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_water_info($connection, [
+        'id' => $_POST['id'],
+        'content' => $_POST['content'],
+    ])) {
+        $response['message'] = 'Update info air berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update info air gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+router('PUT', '/info_suhu', function() {
+    global $connection;
+
+    $response = [];
+
+    if (update_temperature_info($connection, [
+        'id' => $_POST['id'],
+        'content' => $_POST['content'],
+    ])) {
+        $response['message'] = 'Update info suhu berhasil';
+        $response['success'] = true;
+    } else {
+        $response['message'] = 'Update info suhu gagal';
+        $response['success'] = false;
+    }
+
+    echo json_encode($response);
+}, Permission::Admin);
+
+
+
+
 
 function buildRouter($routes)
 {

@@ -36,4 +36,17 @@ function get_soil_by_wilayah($wilayah_id, $connection) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function delete_soil_info($connection, $id) {
+    $stmt = $connection->prepare('DELETE FROM informasi_tanah WHERE id = :id');
+    $stmt->bindParam(':id', $id);
+    return $connection->execute($stmt, null);
+}
+
+function update_soil_info($connection, $soil_info) {
+    $stmt = $connection->prepare('UPDATE informasi_tanah SET content = :content WHERE id = :id');
+    $stmt->bindParam(':content', $soil_info['content']);
+    $stmt->bindParam(':id', $soil_info['id']);
+    return $connection->execute($stmt, null);
+}
+
 ?>

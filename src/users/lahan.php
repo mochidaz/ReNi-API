@@ -58,4 +58,30 @@ function get_all_lahan($connection) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function delete_lahan($id, $connection) {
+    $stmt = $connection->prepare('DELETE FROM lahan_petani WHERE id = :id');
+
+    $stmt->bindParam(':id', $id);
+
+    return $stmt->execute();
+}
+
+function update_lahan($lahan, $connection) {
+    $stmt = $connection->prepare('UPDATE lahan_petani SET name = :name, luas_lahan = :luas_lahan, wilayah_id = :wilayah_id, lokasi = :lokasi, updated_at = :updated_at WHERE id = :id');
+
+    $stmt->bindParam(':name', $lahan['name']);
+
+    $stmt->bindParam(':luas_lahan', $lahan['luas_lahan']);
+
+    $stmt->bindParam(':wilayah_id', $lahan['wilayah_id']);
+
+    $stmt->bindParam(':lokasi', $lahan['lokasi']);
+
+    $stmt->bindParam(':updated_at', date('Y-m-d H:i:s'));
+
+    $stmt->bindParam(':id', $lahan['id']);
+
+    return $stmt->execute();
+}
+
 ?>

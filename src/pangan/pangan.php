@@ -23,11 +23,16 @@ function get_pangan($db, $id = null) {
     }
 }
 
-$stmt = $connection->prepare("SELECT * FROM wilayah");
+function delete_pangan($db, $id) {
+    $stmt = $db->prepare('DELETE FROM pangan WHERE id = :id');
+    $stmt->bindParam(':id', $id);
+    return $stmt->execute();
+}
 
-$connection->execute($stmt, null);
-
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-return $result;
-
+function update_pangan($db, $pangan) {
+    $stmt = $db->prepare('UPDATE pangan SET name = :name WHERE id = :id');
+    $stmt->bindParam(':name', $pangan['name']);
+    $stmt->bindParam(':id', $pangan['id']);
+    return $stmt->execute();
+}
 ?>

@@ -38,4 +38,17 @@ function get_temperature_by_wilayah($wilayah_id, $connection) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function delete_temperature_info($connection, $id) {
+    $stmt = $connection->prepare('DELETE FROM informasi_suhu WHERE id = :id');
+    $stmt->bindParam(':id', $id);
+    return $connection->execute($stmt, null);
+}
+
+function update_temperature_info($connection, $temperature_info) {
+    $stmt = $connection->prepare('UPDATE informasi_suhu SET content = :content WHERE id = :id');
+    $stmt->bindParam(':content', $temperature_info['content']);
+    $stmt->bindParam(':id', $temperature_info['id']);
+    return $connection->execute($stmt, null);
+}
+
 ?>

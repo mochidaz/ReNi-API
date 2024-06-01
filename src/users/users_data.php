@@ -30,4 +30,26 @@ function get_bulk_user_data($conn)
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function update_user_data($user_data, $conn)
+{
+    $db = $conn;
+    $query = $db->prepare('UPDATE user_data SET address = :address, phone = :phone, updated_at = NOW() WHERE id = :id');
+
+    $query->bindParam(':address', $user_data['address']);
+    $query->bindParam(':phone', $user_data['phone']);
+
+    $query->execute();
+}
+
+function update_user_profile_photo($user_id, $profile_photo, $conn)
+{
+    $db = $conn;
+    $query = $db->prepare('UPDATE user_data SET profile_photo = :profile_photo WHERE user_id = :user_id');
+
+    $query->bindParam(':profile_photo', $profile_photo);
+    $query->bindParam(':user_id', $user_id);
+
+    $query->execute();
+}
+
 ?>

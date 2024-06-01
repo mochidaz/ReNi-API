@@ -38,4 +38,17 @@ function get_water_by_wilayah($wilayah_id, $connection) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function delete_water_info($connection, $id) {
+    $stmt = $connection->prepare('DELETE FROM informasi_air WHERE id = :id');
+    $stmt->bindParam(':id', $id);
+    return $connection->execute($stmt, null);
+}
+
+function update_water_info($connection, $water_info) {
+    $stmt = $connection->prepare('UPDATE informasi_air SET content = :content WHERE id = :id');
+    $stmt->bindParam(':content', $water_info['content']);
+    $stmt->bindParam(':id', $water_info['id']);
+    return $connection->execute($stmt, null);
+}
+
 ?>
