@@ -45,13 +45,17 @@ function delete_post($connection, $id) {
     return $connection->execute($stmt, null);
 }
 
-function update_post($connection, $post) {
-    $stmt = $connection->prepare('UPDATE artikel SET title = :title, content = :content, category = :category WHERE id = :id');
+function update_post($connection, array $post) {
+
+    $stmt = $connection->prepare('UPDATE artikel SET title = :title, content = :content, category = :category, updated_at = NOW() WHERE id = :id');
     $stmt->bindParam(':title', $post['title']);
     $stmt->bindParam(':content', $post['content']);
     $stmt->bindParam(':category', $post['category']);
     $stmt->bindParam(':id', $post['id']);
-    return $connection->execute($stmt, null);
+    
+    $res = $connection->execute($stmt, null);
+    
+    return $res;
 }
 
 function update_post_image($connection, $id, $image) {

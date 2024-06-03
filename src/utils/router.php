@@ -83,9 +83,3 @@ function router($httpMethods, $route, $callback, $permission_guard, $exit = true
         exit;
     }
 }
-
-// function include_routers($path) {
-//     include_once $path;
-
-//     return $routes;
-// }

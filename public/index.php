@@ -66,35 +66,37 @@ $routes = [
 ];
 
 $deleteRoutes = [
-    ['DELETE', '/users/panen/', function() {}, Permission::User],
+    ['DELETE', '/users/panen', function() {}, Permission::User],
 
-    ['DELETE', '/users/lahan/', function() {}, Permission::User],
+    ['DELETE', '/users/lahan', function() {}, Permission::User],
 
-    ['DELETE', '/ruang-tani/artikel/', function() {}, Permission::Admin],
+    ['DELETE', '/ruang-tani/artikel', function() {}, Permission::Admin],
 
-    ['DELETE', '/pangan/', function() {}, Permission::Admin],
+    ['DELETE', '/ruang-tani', function() {}, Permission::Admin],
 
-    ['DELETE', '/info_tanah/', function() {}, Permission::Admin],
+    ['DELETE', '/pangan', function() {}, Permission::Admin],
 
-    ['DELETE', '/info_air/', function() {}, Permission::Admin],
+    ['DELETE', '/info_tanah', function() {}, Permission::Admin],
 
-    ['DELETE', '/info_suhu/', function() {}, Permission::Admin],
+    ['DELETE', '/info_air', function() {}, Permission::Admin],
+
+    ['DELETE', '/info_suhu', function() {}, Permission::Admin],
 ];
 
 $updateRoutes = [
-    ['PUT', '/users/panen/', function() {}, Permission::User],
+    ['PUT', '/users/panen', function() {}, Permission::User],
 
-    ['PUT', '/users/lahan/', function() {}, Permission::User],
+    ['PUT', '/users/lahan', function() {}, Permission::User],
 
-    ['PUT', '/ruang-tani/artikel/', function() {}, Permission::Admin],
+    ['PUT', '/ruang-tani', function() {}, Permission::Admin],
 
-    ['PUT', '/pangan/', function() {}, Permission::Admin],
+    ['PUT', '/pangan', function() {}, Permission::Admin],
 
-    ['PUT', '/info_tanah/', function() {}, Permission::Admin],
+    ['PUT', '/info_tanah', function() {}, Permission::Admin],
 
-    ['PUT', '/info_air/', function() {}, Permission::Admin],
+    ['PUT', '/info_air', function() {}, Permission::Admin],
 
-    ['PUT', '/info_suhu/', function() {}, Permission::Admin],
+    ['PUT', '/info_suhu', function() {}, Permission::Admin],
 
     ['PUT', '/user/data/profile-photo', function() {}, Permission::User],
 

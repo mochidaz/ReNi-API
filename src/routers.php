@@ -19,6 +19,7 @@ include_once __DIR__ .'/infos/water_info.php';
 include_once __DIR__ .'/infos/temperature_info.php';
 include_once __DIR__ .'/region/delete_daerah.php';
 include_once __DIR__ .'/region/update_daerah.php';
+include_once __DIR__ .'/utils/parser.php';
 
 router('GET', '/', function () {
     echo json_encode(['message' => 'Hello, World!']);
@@ -621,11 +622,14 @@ router('PUT', '/users/data', function() {
 
     $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
 
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
 
     $data = [
         'user_id' => $user['no_ktp'],
-        'address' => $_POST['address'],
-        'phone' => $_POST['phone'],
+        'address' => $data['address'],
+        'phone' => $data['phone'],
     ];
 
     if (update_user_data($data, $connection)) {
@@ -673,12 +677,16 @@ router('PUT', '/users/lahan', function() {
 
     $user = get_user_by_apikey($_SERVER['HTTP_API_KEY'], $connection);
 
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
     if (update_lahan([
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-        'luas_lahan' => $_POST['luas_lahan'],
-        'wilayah_id' => $_POST['wilayah_id'],
-        'lokasi' => $_POST['lokasi'],
+        'id' => $_GET['id'],
+        'name' => $data['name'],
+        'luas_lahan' => $data['luas_lahan'],
+        'wilayah_id' => $data['wilayah_id'],
+        'lokasi' => $data['lokasi'],
     ], $connection)) {
         $response['message'] = 'Update lahan berhasil';
         $response['success'] = true;
@@ -695,10 +703,14 @@ router('PUT', '/wilayah', function() {
 
     $response = [];
 
-    if (update_daerah([
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-    ], $connection)) {
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
+    if (update_daerah($connection, [
+        'id' => $_GET['id'],
+        'name' => $data['name'],
+    ])) {
         $response['message'] = 'Update wilayah berhasil';
         $response['success'] = true;
     } else {
@@ -714,10 +726,14 @@ router('PUT', '/pangan', function() {
 
     $response = [];
 
-    if (update_pangan([
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-    ], $connection)) {
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
+    if (update_pangan($connection, [
+        'id' => $_GET['id'],
+        'name' => $data['name'],
+    ])) {
         $response['message'] = 'Update pangan berhasil';
         $response['success'] = true;
     } else {
@@ -733,12 +749,16 @@ router('PUT', '/ruang-tani', function() {
 
     $response = [];
 
-    if (update_post([
-        'id' => $_POST['id'],
-        'title' => $_POST['title'],
-        'content' => $_POST['content'],
-        'category' => $_POST['category'],
-    ], $connection)) {
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
+    if (update_post($connection, [
+        'id' => $_GET['id'],
+        'title' => $data['title'],
+        'content' => $data['content'],
+        'category' => $data['category'],
+    ])) {
         $response['message'] = 'Update artikel berhasil';
         $response['success'] = true;
     } else {
@@ -779,9 +799,13 @@ router('PUT', '/info_tanah', function() {
 
     $response = [];
 
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
     if (update_soil_info($connection, [
-        'id' => $_POST['id'],
-        'content' => $_POST['content'],
+        'id' => $_GET['id'],
+        'content' => $data['content'],
     ])) {
         $response['message'] = 'Update info tanah berhasil';
         $response['success'] = true;
@@ -798,9 +822,13 @@ router('PUT', '/info_air', function() {
 
     $response = [];
 
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
     if (update_water_info($connection, [
-        'id' => $_POST['id'],
-        'content' => $_POST['content'],
+        'id' => $_GET['id'],
+        'content' => $data['content'],
     ])) {
         $response['message'] = 'Update info air berhasil';
         $response['success'] = true;
@@ -817,9 +845,13 @@ router('PUT', '/info_suhu', function() {
 
     $response = [];
 
+    $put = file_get_contents('php://input');
+
+    $data = parse_form_data($put);
+
     if (update_temperature_info($connection, [
-        'id' => $_POST['id'],
-        'content' => $_POST['content'],
+        'id' => $_GET['id'],
+        'content' => $data['content'],
     ])) {
         $response['message'] = 'Update info suhu berhasil';
         $response['success'] = true;
