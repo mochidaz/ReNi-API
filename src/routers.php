@@ -415,7 +415,7 @@ router('GET', '/info_suhu', function() {
     echo json_encode($info);
 }, Permission::Any);
 
-router('DELETE', '/users/panen/', function($params) {
+router('DELETE', '/users/panen', function($params) {
     global $connection;
 
     $response = [];
@@ -440,7 +440,7 @@ router('DELETE', '/users/panen/', function($params) {
     echo json_encode($response);
 }, Permission::User);
 
-router('DELETE', '/users/lahan/', function($params) {
+router('DELETE', '/users/lahan', function($params) {
     global $connection;
 
     $response = [];
@@ -465,7 +465,7 @@ router('DELETE', '/users/lahan/', function($params) {
     echo json_encode($response);
 }, Permission::User);
 
-router('DELETE', '/wilayah/', function($params) {
+router('DELETE', '/wilayah', function($params) {
     global $connection;
 
     $response = [];
@@ -490,7 +490,7 @@ router('DELETE', '/wilayah/', function($params) {
     echo json_encode($response);
 }, Permission::Admin);
 
-router('DELETE', '/pangan/', function($params) {
+router('DELETE', '/pangan', function($params) {
     global $connection;
 
     $response = [];
@@ -750,6 +750,8 @@ router('PUT', '/ruang-tani', function() {
     $response = [];
 
     $put = file_get_contents('php://input');
+
+    echo $put;
 
     $data = parse_form_data($put);
 
