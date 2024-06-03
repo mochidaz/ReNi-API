@@ -39,16 +39,93 @@ function submit_panen($db, $panen) {
 
 function get_panen($db) {
     if (isset($_GET['id'])) {
-        $stmt = $db->prepare('SELECT data_panen.id, pangan_id, data_panen.user_id, tanggal_penanaman, tanggal_panen, hasil_panen, data_panen.created_at, data_panen.updated_at, lahan_id, users.name as user_name, pangan.name as pangan_name, lahan_petani.name as lahan_name FROM data_panen INNER JOIN users ON users.no_ktp = data_panen.user_id INNER JOIN pangan ON pangan.id = pangan_id INNER JOIN lahan_petani ON lahan_petani.id = lahan_id WHERE data_petani.id = :id');
-
+        //$stmt = $db->prepare('SELECT data_panen.id, pangan_id, data_panen.user_id, tanggal_penanaman, tanggal_panen, hasil_panen, data_panen.created_at, data_panen.updated_at, lahan_id, users.name as user_name, pangan.name as pangan_name, lahan_petani.name as lahan_name FROM data_panen INNER JOIN users ON users.no_ktp = data_panen.user_id INNER JOIN pangan ON pangan.id = pangan_id INNER JOIN lahan_petani ON lahan_petani.id = lahan_id WHERE data_petani.id = :id');
+        $stmt = $db->prepare('
+        SELECT 
+            data_panen.id, 
+            pangan_id, 
+            data_panen.user_id, 
+            tanggal_penanaman, 
+            tanggal_panen, 
+            hasil_panen, 
+            data_panen.created_at, 
+            data_panen.updated_at, 
+            lahan_id, 
+            users.name as user_name, 
+            pangan.name as pangan_name, 
+            lahan_petani.name as lahan_name, 
+            wilayah.name as wilayah_name
+        FROM 
+            data_panen 
+            INNER JOIN users ON users.no_ktp = data_panen.user_id 
+            INNER JOIN pangan ON pangan.id = pangan_id 
+            INNER JOIN lahan_petani ON lahan_petani.id = lahan_id 
+            INNER JOIN wilayah ON wilayah.id = lahan_petani.wilayah_id 
+        WHERE 
+            data_petani.id = :id
+        ');
         $stmt->bindParam(':id', $_GET['id']);
 
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    } else {
-        $stmt = $db->prepare('SELECT data_panen.id, pangan_id, data_panen.user_id, tanggal_penanaman, tanggal_panen, hasil_panen, data_panen.created_at, data_panen.updated_at, lahan_id, users.name as user_name, pangan.name as pangan_name, lahan_petani.name as lahan_name FROM data_panen INNER JOIN users ON users.no_ktp = data_panen.user_id INNER JOIN pangan ON pangan.id = pangan_id INNER JOIN lahan_petani ON lahan_petani.id = lahan_id');
+    } else if (isset($_GET['wilayah_id'])) {
+        $stmt = $db->prepare('
+        SELECT 
+            data_panen.id, 
+            pangan_id, 
+            data_panen.user_id, 
+            tanggal_penanaman, 
+            tanggal_panen, 
+            hasil_panen, 
+            data_panen.created_at, 
+            data_panen.updated_at, 
+            lahan_id, 
+            users.name as user_name, 
+            pangan.name as pangan_name, 
+            lahan_petani.name as lahan_name, 
+            wilayah.name as wilayah_name
+        FROM 
+            data_panen 
+            INNER JOIN users ON users.no_ktp = data_panen.user_id 
+            INNER JOIN pangan ON pangan.id = pangan_id 
+            INNER JOIN lahan_petani ON lahan_petani.id = lahan_id 
+            INNER JOIN wilayah ON wilayah.id = lahan_petani.wilayah_id 
+        WHERE 
+            wilayah.id = :wilayah_id
+        ');
+    
+        $stmt->bindParam(':wilayah_id', $_GET['wilayah_id']);
 
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    else {
+       // $stmt = $db->prepare('SELECT data_panen.id, pangan_id, data_panen.user_id, tanggal_penanaman, tanggal_panen, hasil_panen, data_panen.created_at, data_panen.updated_at, lahan_id, users.name as user_name, pangan.name as pangan_name, lahan_petani.name as lahan_name FROM data_panen INNER JOIN users ON users.no_ktp = data_panen.user_id INNER JOIN pangan ON pangan.id = pangan_id INNER JOIN lahan_petani ON lahan_petani.id = lahan_id');
+       $stmt = $db->prepare('
+       SELECT 
+           data_panen.id, 
+           pangan_id, 
+           data_panen.user_id, 
+           tanggal_penanaman, 
+           tanggal_panen, 
+           hasil_panen, 
+           data_panen.created_at, 
+           data_panen.updated_at, 
+           lahan_id, 
+           users.name as user_name, 
+           pangan.name as pangan_name, 
+           lahan_petani.name as lahan_name, 
+           wilayah.name as wilayah_name
+       FROM 
+           data_panen 
+           INNER JOIN users ON users.no_ktp = data_panen.user_id 
+           INNER JOIN pangan ON pangan.id = pangan_id 
+           INNER JOIN lahan_petani ON lahan_petani.id = lahan_id 
+           INNER JOIN wilayah ON wilayah.id = lahan_petani.wilayah_id 
+        ');
+   
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +133,30 @@ function get_panen($db) {
 }
 
 function get_panen_by_user($db, $user_id) {
-    $stmt = $db->prepare('SELECT data_panen.id, pangan_id, data_panen.user_id, tanggal_penanaman, tanggal_panen, hasil_panen, data_panen.created_at, data_panen.updated_at, lahan_id, users.name as user_name, pangan.name as pangan_name, lahan_petani.name as lahan_name FROM data_panen INNER JOIN users ON users.no_ktp = data_panen.user_id INNER JOIN pangan ON pangan.id = pangan_id INNER JOIN lahan_petani ON lahan_petani.id = lahan_id WHERE data_panen.user_id = :user_id');
+    $stmt = $db->prepare('
+    SELECT 
+        data_panen.id, 
+        pangan_id, 
+        data_panen.user_id, 
+        tanggal_penanaman, 
+        tanggal_panen, 
+        hasil_panen, 
+        data_panen.created_at, 
+        data_panen.updated_at, 
+        lahan_id, 
+        users.name as user_name, 
+        pangan.name as pangan_name, 
+        lahan_petani.name as lahan_name, 
+        wilayah.name as wilayah_name
+    FROM 
+        data_panen 
+        INNER JOIN users ON users.no_ktp = data_panen.user_id 
+        INNER JOIN pangan ON pangan.id = pangan_id 
+        INNER JOIN lahan_petani ON lahan_petani.id = lahan_id 
+        INNER JOIN wilayah ON wilayah.id = lahan_petani.wilayah_id 
+    WHERE 
+        data_panen.user_id = :user_id
+');
 
     $stmt->bindParam(':user_id', $user_id);
 
